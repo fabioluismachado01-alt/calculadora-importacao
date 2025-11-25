@@ -7,16 +7,15 @@
 
   <!-- SEO básico -->
   <meta name="description"
-        content="Calcule rapidamente o custo e a viabilidade da sua Importação Simplificada e Importação Formal Marítima ou Aérea, incluindo NCM, impostos, courier e margem de venda. Ferramenta didática criada por Fabio Machado Consultoria Estratégica." />
+        content="Calcule rapidamente o custo e a viabilidade da sua Importação Simplificada ou Importação Formal Marítima ou Aérea, incluindo NCM, impostos, despesas aduaneiras, courier e margem de venda. Ferramenta didática criada por Fabio Machado Consultoria Estratégica." />
   <meta name="author" content="Fabio Machado Consultoria Estratégica" />
-  <!-- Ajuste a URL abaixo para a URL final do seu GitHub Pages, se quiser -->
   <link rel="canonical" href="https://fabioluismachado01-alt.github.io/calculadora-importacao/" />
 
   <!-- Open Graph / Social -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Calculadora de Viabilidade de Importação – Fabio Machado" />
   <meta property="og:description"
-        content="Simulador gratuito para avaliar custos, tributação e viabilidade da sua Importação Simplificada e Importação Formal Marítima ou Aérea, com orientação de quem vive o comércio exterior na prática." />
+        content="Simulador gratuito para avaliar custos, tributação e viabilidade da sua Importação Simplificada ou Importação Formal Marítima/Aérea, com orientação de quem vive o comércio exterior na prática." />
   <meta property="og:url" content="https://fabioluismachado01-alt.github.io/calculadora-importacao/" />
   <meta property="og:image" content="https://fabioluismachado01-alt.github.io/calculadora-importacao/logo-fabio.png" />
 
@@ -299,34 +298,43 @@
       box-shadow: 0 16px 36px rgba(22, 163, 74, 0.85);
     }
 
-    .modo-switch {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    .modo-btn {
-      background: #111827;
-      color: #e5e7eb;
+    /* Seletor de modo */
+    .mode-switch {
+      display: inline-flex;
       border-radius: 999px;
-      padding: 6px 14px;
-      border: 1px solid #1f2937;
-      font-size: 12px;
-      box-shadow: none;
+      padding: 2px;
+      background: #020617;
+      border: 1px solid var(--border);
     }
 
-    body[data-theme="light"] .modo-btn {
+    body[data-theme="light"] .mode-switch {
       background: #e5e7eb;
-      color: #020617;
-      border-color: #cbd5f5;
     }
 
-    .modo-btn.active {
-      background: linear-gradient(90deg,var(--gold-light),var(--gold));
+    .mode-option {
+      padding: 6px 14px;
+      font-size: 13px;
+      cursor: pointer;
+      border-radius: 999px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .mode-option input {
+      width: auto;
+    }
+
+    .mode-option.active {
+      background: linear-gradient(90deg, var(--gold-light), var(--gold));
       color: #020617;
-      box-shadow: 0 8px 20px rgba(234,179,8,0.35);
-      border-color: transparent;
+      font-weight: 600;
+      box-shadow: 0 8px 20px rgba(234, 179, 8, 0.35);
+    }
+
+    .mode-option.active input {
+      accent-color: #020617;
     }
 
     @media (max-width: 480px) {
@@ -352,6 +360,9 @@
       <span class="subtitle">
         Desenvolvido por Fabio Machado • Consultoria, Aulas &amp; Mentoria em Importação
       </span>
+      <span class="subtitle" id="modoAtualInfo">
+        Modo selecionado: Importação Simplificada
+      </span>
     </h1>
   </div>
 
@@ -369,38 +380,39 @@
   <div class="card">
     <h2>Como usar esta calculadora</h2>
     <p class="muted">
-      Esta ferramenta foi criada para te dar uma visão rápida da viabilidade de um produto tanto na
-      <strong>Importação Simplificada</strong> quanto na <strong>Importação Formal Marítima ou Aérea</strong>.
-      Siga os passos:
+      Esta ferramenta foi criada para te dar uma visão rápida da viabilidade de um produto na
+      <strong>Importação Simplificada</strong> ou na
+      <strong>Importação Formal Marítima ou Aérea</strong>. Siga os passos abaixo:
     </p>
     <ol class="muted" style="padding-left:18px; margin-top:6px;">
-      <li>Informe o <strong>NCM</strong> e verifique órgãos anuentes, tributos especiais e possíveis restrições.</li>
+      <li>Escolha abaixo se o cálculo será para <strong>Simplificada</strong> ou <strong>Formal (Marítima/Aérea)</strong>.</li>
+      <li>Informe o <strong>NCM</strong> e verifique possíveis órgãos anuentes, tributos especiais e restrições.</li>
       <li>Confirme a <strong>cotação do dólar</strong> (automática ou manual).</li>
-      <li>Escolha abaixo se quer simular a <strong>Importação Simplificada</strong> ou a
-          <strong>Importação Formal Marítima ou Aérea</strong>.</li>
-      <li>Calcule o <strong>custo unitário</strong> e, em seguida, use a seção de
-          <strong>viabilidade de venda</strong> para enxergar margem, ROI e retorno do lote.</li>
+      <li>Preencha os <strong>dados do produto, frete, impostos e despesas</strong> da remessa.</li>
+      <li>Clique em <strong>“Calcular custo de importação”</strong> e, em seguida, simule a <strong>viabilidade de venda</strong>.</li>
     </ol>
+    <p class="muted" style="margin-top:8px;">
+      Os resultados são aproximados e servem como apoio à tomada de decisão. Para operações formais marítimas ou aéreas,
+      sempre valide o cenário com seu despachante aduaneiro ou consultor de confiança.
+    </p>
 
-    <div class="modo-switch" aria-label="Selecione o modo de cálculo">
-      <button type="button" class="modo-btn active" data-modo="simplificado">
-        Modo Simplificado (Courier / Remessa)
-      </button>
-      <button type="button" class="modo-btn" data-modo="formal">
-        Modo Formal (Marítimo / Aéreo)
-      </button>
+    <!-- Seletor de modo -->
+    <div style="margin-top:12px;">
+      <span class="muted" style="display:block; margin-bottom:6px;">Selecione o modo de cálculo:</span>
+      <div class="mode-switch" id="modeSwitch">
+        <label class="mode-option active">
+          <input type="radio" name="modoImportacao" value="simplificada" checked>
+          Simplificada (courier / remessa expressa)
+        </label>
+        <label class="mode-option">
+          <input type="radio" name="modoImportacao" value="formal">
+          Formal (Marítima / Aérea)
+        </label>
+      </div>
     </div>
-    <p class="muted" style="margin-top:8px;">
-      Modo atual:
-      <strong id="modoAtualLabel">Simplificado (Courier / Remessa Expressa)</strong>
-    </p>
-    <p class="muted" style="margin-top:8px;">
-      Os resultados são aproximados e servem como apoio à tomada de decisão. Para operações formais,
-      valide sempre o cenário com seu despachante aduaneiro ou consultor de confiança.
-    </p>
   </div>
 
-  <!-- 🔹 SEÇÃO NCM + TRATAMENTOS -->
+  <!-- 🔹 SEÇÃO NCM + TRATAMENTOS (comum aos dois modos) -->
   <div class="card">
     <h2>NCM &amp; Tratamentos Administrativos</h2>
 
@@ -475,7 +487,7 @@
     <div id="ncmAlerta" class="danger"></div>
   </div>
 
-  <!-- 🔹 SEÇÃO CÂMBIO (COMUM AOS DOIS MODOS) -->
+  <!-- 🔹 SEÇÃO CÂMBIO (comum) -->
   <div class="card">
     <h2>Câmbio</h2>
 
@@ -486,14 +498,14 @@
     <p class="muted">Se preferir, desmarque a opção acima para editar a cotação manualmente.</p>
   </div>
 
-  <!-- ======================= -->
-  <!-- 🔹 MODO SIMPLIFICADO   -->
-  <!-- ======================= -->
-  <section id="secaoSimplificado">
+  <!-- =========================
+       BLOCO SIMPLIFICADA
+  =============================-->
+  <div id="calcSimplificada">
 
-    <!-- PRODUTO SIMPLIFICADO -->
+    <!-- 🔹 PRODUTO SIMPLIFICADA -->
     <div class="card">
-      <h2>Produto &amp; Custos (Modo Simplificado – USD)</h2>
+      <h2>Produto &amp; Custos (USD) – Importação Simplificada</h2>
 
       <div class="grid grid-2">
         <div>
@@ -523,9 +535,9 @@
       </div>
     </div>
 
-    <!-- IMPOSTOS SIMPLIFICADOS -->
+    <!-- 🔹 IMPOSTOS SIMPLIFICADA -->
     <div class="card">
-      <h2>Impostos – Importação Simplificada</h2>
+      <h2>Impostos Simplificados</h2>
 
       <div class="grid grid-2">
         <div>
@@ -540,184 +552,176 @@
       </div>
     </div>
 
-    <!-- BOTÃO CALCULAR SIMPLIFICADO -->
-    <div class="card" style="text-align:center;">
-      <button id="calcularBtn">Calcular custo da importação simplificada</button>
-    </div>
+  </div><!-- /calcSimplificada -->
 
-    <!-- RESULTADO SIMPLIFICADO -->
-    <div class="card result" id="resultadoCard" style="display:none;">
-      <h2>Resultado da Importação Simplificada</h2>
+  <!-- =========================
+       BLOCO FORMAL
+  =============================-->
+  <div id="calcFormal" style="display:none;">
 
-      <div class="result-label">
-        Valor dos produtos (BRL):
-        <span class="result-value" id="resProdutos"></span>
-      </div>
-      <div class="result-label">
-        Valor do frete + seguro (BRL):
-        <span class="result-value" id="resFreteSeguro"></span>
-      </div>
-      <div class="result-label">
-        Valor dos impostos (II + ICMS) (BRL):
-        <span class="result-value" id="resImpostos"></span>
-      </div>
-      <div class="result-label">
-        Taxa courier (mín. 18,8 USD ou 2% da base) (BRL):
-        <span class="result-value" id="resCourier"></span>
-      </div>
-
-      <hr>
-
-      <div class="result-label">
-        Custo total do lote:
-        <span class="result-value" id="resultadoTotal"></span>
-      </div>
-
-      <div class="result-label">
-        Custo unitário do produto:
-        <span class="result-value" id="resultadoUnitario"></span>
-      </div>
-
-      <p class="muted" id="resResumoBase"></p>
-    </div>
-  </section>
-
-  <!-- ======================= -->
-  <!-- 🔹 MODO FORMAL          -->
-  <!-- ======================= -->
-  <section id="secaoFormal" style="display:none;">
-
+    <!-- 🔹 PRODUTO FORMAL -->
     <div class="card">
-      <h2>Importação Formal (Marítima / Aérea) – Custos Aduaneiros e Logísticos</h2>
-      <p class="muted">
-        Use esta seção para simular uma operação de Importação Formal Marítima ou Aérea, com DI completa.
-        Preencha os campos em verde (valores de exemplo).
-      </p>
+      <h2>Produto &amp; Custos (USD) – Importação Formal Marítima ou Aérea</h2>
 
       <div class="grid grid-2">
         <div>
-          <label>Custo unitário do produto (USD)</label>
-          <input type="number" id="custoUSDF" step="0.01" value="3.50">
+          <label>Nome do produto</label>
+          <input type="text" id="produtoNomeFormal" placeholder="Ex.: Fone Bluetooth">
+        </div>
+
+        <div>
+          <label>Custo unitário (USD)</label>
+          <input type="number" id="custoUSDFormal" step="0.01" value="3.5">
         </div>
 
         <div>
           <label>Quantidade</label>
-          <input type="number" id="quantidadeF" value="500">
+          <input type="number" id="quantidadeFormal" value="500">
         </div>
 
         <div>
           <label>Frete internacional (USD)</label>
-          <input type="number" id="freteUSDF" step="0.01" value="300">
+          <input type="number" id="freteUSDFormal" step="0.01" value="390">
         </div>
 
         <div>
           <label>Seguro internacional (USD)</label>
-          <input type="number" id="seguroUSDF" step="0.01" value="50">
+          <input type="number" id="seguroUSDFormal" step="0.01" value="50">
         </div>
+      </div>
+      <p class="muted">Os campos acima representam o valor aduaneiro (produto, frete e seguro) da sua importação formal.</p>
+    </div>
 
+    <!-- 🔹 DESPESAS ADUANEIRAS / PORTUÁRIAS -->
+    <div class="card">
+      <h2>Despesas Aduaneiras &amp; Portuárias (BRL)</h2>
+      <p class="muted">
+        Aqui entram os custos cobrados por agente de cargas, terminal, armazenagem e serviços de despacho.
+        Use valores aproximados em reais.
+      </p>
+
+      <div class="grid grid-2">
         <div>
-          <label>Siscomex / Taxas sistêmicas (R$)</label>
-          <input type="number" id="siscomexBRL" step="0.01" value="250">
+          <label>Siscomex (R$)</label>
+          <input type="number" id="siscomexBRL" step="0.01" value="830.00">
         </div>
-
         <div>
           <label>Despachante aduaneiro (R$)</label>
-          <input type="number" id="despachanteBRL" step="0.01" value="2300">
+          <input type="number" id="despachanteBRL" step="0.01" value="2300.00">
         </div>
-
         <div>
-          <label>Armazenagem / Terminal (R$)</label>
-          <input type="number" id="armazenagemBRL" step="0.01" value="650">
+          <label>Armazenagem (R$)</label>
+          <input type="number" id="armazenagemBRL" step="0.01" value="6529.99">
         </div>
-
         <div>
-          <label>Taxas portuárias / handling (R$)</label>
-          <input type="number" id="taxasPortuariasBRL" step="0.01" value="380">
+          <label>Transporte rodoviário / entrega interna (R$)</label>
+          <input type="number" id="transporteBRL" step="0.01" value="373.13">
         </div>
-
         <div>
-          <label>Transporte interno / rodoviário (R$)</label>
-          <input type="number" id="transporteBRL" step="0.01" value="1284">
+          <label>Marinha Mercante (% sobre o frete em BRL)</label>
+          <input type="number" id="marinhaPercent" step="0.01" value="8">
+          <p class="muted">A calculadora aplica este percentual sobre o valor do frete convertido para BRL.</p>
         </div>
-
         <div>
-          <label>Outras despesas (R$)</label>
-          <input type="number" id="outrosBRL" step="0.01" value="0">
+          <label>Outras despesas (BL, capatazia, handling, laudos, etc.) (R$)</label>
+          <input type="number" id="outrasDespesasBRL" step="0.01" value="9280.00">
         </div>
       </div>
     </div>
 
+    <!-- 🔹 IMPOSTOS FORMAIS -->
     <div class="card">
-      <h2>Tributos Federais &amp; ICMS – Importação Formal</h2>
+      <h2>Impostos Federais &amp; ICMS – Importação Formal</h2>
+      <p class="muted">
+        Preencha as alíquotas conforme o enquadramento do seu NCM. A base de cálculo segue a lógica padrão:
+        CIF, depois II, IPI, PIS/COFINS e, por fim, ICMS com ou sem gross-up.
+      </p>
+
       <div class="grid grid-2">
         <div>
           <label>II – Imposto de Importação (%)</label>
-          <input type="number" id="aliqIIF" value="20">
+          <input type="number" id="iiFormalPercent" step="0.01" value="20">
         </div>
         <div>
-          <label>IPI – Imposto sobre Produto Industrializado (%)</label>
-          <input type="number" id="aliqIPIF" value="5">
+          <label>IPI – Imposto sobre Produtos Industrializados (%)</label>
+          <input type="number" id="ipiFormalPercent" step="0.01" value="15">
         </div>
         <div>
           <label>PIS (%)</label>
-          <input type="number" id="aliqPISF" value="1.65">
+          <input type="number" id="pisFormalPercent" step="0.01" value="2.1">
         </div>
         <div>
           <label>COFINS (%)</label>
-          <input type="number" id="aliqCOFINSF" value="7.6">
+          <input type="number" id="cofinsFormalPercent" step="0.01" value="10.65">
         </div>
         <div>
           <label>ICMS (%)</label>
-          <input type="number" id="aliqICMSF" value="18">
+          <input type="number" id="icmsFormalPercent" step="0.01" value="18">
         </div>
         <div>
-          <label><input type="checkbox" id="icmsGrossUp" checked> ICMS com gross-up na base</label>
-          <p class="muted">Desmarque se quiser simular ICMS sem gross-up.</p>
+          <label>ICMS com gross-up?</label>
+          <select id="icmsFormalGrossUp">
+            <option value="sim">Sim (gross-up)</option>
+            <option value="nao">Não (sem gross-up)</option>
+          </select>
         </div>
       </div>
     </div>
 
-    <div class="card" style="text-align:center;">
-      <button id="calcularFormalBtn" type="button">Calcular custo da importação formal</button>
+  </div><!-- /calcFormal -->
+
+  <!-- 🔹 BOTÃO CALCULAR IMPORTAÇÃO (COMUM) -->
+  <div class="card" style="text-align:center;">
+    <button id="calcularBtn">Calcular custo de importação (modo selecionado)</button>
+  </div>
+
+  <!-- 🔹 RESULTADO IMPORTAÇÃO (COMUM) -->
+  <div class="card result" id="resultadoCard" style="display:none;">
+    <h2>Resultado da Importação</h2>
+
+    <div class="result-label">
+      Modo de cálculo:
+      <span class="result-value" id="resultadoModo"></span>
     </div>
 
-    <div class="card result" id="resultadoFormalCard" style="display:none;">
-      <h2>Resultado da Importação Formal</h2>
-
-      <div class="result-label">
-        CIF (produto + frete + seguro):
-        <span class="result-value" id="resFormalCIF"></span>
-      </div>
-      <div class="result-label">
-        Tributos totais (II + IPI + PIS + COFINS + ICMS):
-        <span class="result-value" id="resFormalTributos"></span>
-      </div>
-      <div class="result-label">
-        Outras despesas aduaneiras/logísticas:
-        <span class="result-value" id="resFormalDespesas"></span>
-      </div>
-
-      <hr>
-
-      <div class="result-label">
-        Custo total da importação:
-        <span class="result-value" id="resultadoFormalTotal"></span>
-      </div>
-      <div class="result-label">
-        Custo unitário do produto:
-        <span class="result-value" id="resultadoFormalUnitario"></span>
-      </div>
-
-      <p class="muted" id="resFormalResumo"></p>
+    <div class="result-label">
+      Valor dos produtos (BRL):
+      <span class="result-value" id="resProdutos"></span>
     </div>
-  </section>
+    <div class="result-label">
+      Valor do frete + seguro (BRL):
+      <span class="result-value" id="resFreteSeguro"></span>
+    </div>
+    <div class="result-label">
+      Valor dos impostos (II + IPI + PIS + COFINS + ICMS) (BRL):
+      <span class="result-value" id="resImpostos"></span>
+    </div>
+    <div class="result-label">
+      Despesas aduaneiras / courier (BRL):
+      <span class="result-value" id="resDespesas"></span>
+    </div>
 
-  <!-- 🔹 SIMULAR VIABILIDADE DE VENDA (COMUM AOS DOIS MODOS) -->
+    <hr>
+
+    <div class="result-label">
+      Custo total do lote:
+      <span class="result-value" id="resultadoTotal"></span>
+    </div>
+
+    <div class="result-label">
+      Custo unitário do produto:
+      <span class="result-value" id="resultadoUnitario"></span>
+    </div>
+
+    <p class="muted" id="resResumoBase"></p>
+  </div>
+
+  <!-- 🔹 SIMULAR VIABILIDADE DE VENDA -->
   <div class="card" id="viabilidadeCard" style="display:none;">
     <h2>Simular Viabilidade de Venda</h2>
     <p class="muted">
-      Depois de calcular o custo unitário (simplificado ou formal), preencha os campos abaixo para ver
-      margem, ROI e retorno do lote.
+      Preencha os campos em verde (como na planilha). O custo do produto já vem do cálculo de importação
+      selecionado (Simplificada ou Formal), mas você pode ajustar manualmente.
     </p>
 
     <div class="grid grid-2">
@@ -787,7 +791,7 @@
     <p class="muted">
       Esta calculadora foi criada para que você tenha uma visão clara de custos, riscos e viabilidade antes de
       fechar qualquer pedido com o fornecedor, trazendo para o digital a mesma lógica prática utilizada em
-      consultorias, aulas e mentorias individuais.
+      consultorias e mentorias individuais.
     </p>
     <p class="muted">
       Acompanhe o dia a dia das operações, análises de casos reais e conteúdos sobre importação no Instagram:
@@ -831,45 +835,35 @@
     <h2>Perguntas frequentes</h2>
 
     <details style="margin-bottom:8px;">
-      <summary style="cursor:pointer; font-size:14px; font-weight:600;">
-        Qual a diferença entre Importação Simplificada e Importação Formal Marítima ou Aérea?
-      </summary>
+      <summary style="cursor:pointer; font-size:14px; font-weight:600;">Qual a diferença entre Importação Simplificada e Importação Formal Marítima ou Aérea?</summary>
       <p class="muted" style="margin-top:6px;">
-        De forma bem direta: a <strong>Importação Simplificada</strong> costuma ser usada para remessas de menor valor,
-        normalmente via courier, com um fluxo mais enxuto de despacho. Já a
-        <strong>Importação Formal Marítima ou Aérea</strong> envolve registro completo da declaração de importação,
-        canal de fiscalização, despacho em porto ou aeroporto e regras mais detalhadas de documentação.
-        Cada modalidade tem limites, riscos e custos diferentes — e é isso que explico com calma nas aulas.
+        De forma bem direta: a Importação Simplificada costuma ser usada para remessas de menor valor, normalmente via courier,
+        com um fluxo mais enxuto de despacho. Já a Importação Formal Marítima ou Aérea envolve registro completo da declaração
+        de importação, canal de fiscalização e regras mais detalhadas de documentação. Na prática, cada modalidade tem limites,
+        riscos e custos diferentes — e é isso que explico com calma nas aulas.
       </p>
     </details>
 
     <details style="margin-bottom:8px;">
-      <summary style="cursor:pointer; font-size:14px; font-weight:600;">
-        Os valores desta calculadora são 100% exatos?
-      </summary>
+      <summary style="cursor:pointer; font-size:14px; font-weight:600;">Os valores desta calculadora são 100% exatos?</summary>
       <p class="muted" style="margin-top:6px;">
-        Não. A calculadora é uma ferramenta de apoio, com base em parâmetros que você mesmo informa
-        (alíquotas, taxas, frete, etc.). O objetivo é te dar clareza de ordem de grandeza e viabilidade do projeto.
-        Para números finais, principalmente em operações formais, é importante alinhar com seu despachante aduaneiro
-        e acompanhar a legislação atualizada.
+        Não. A calculadora é uma ferramenta de apoio, com base em parâmetros que você mesmo informa (alíquotas, taxas, frete, etc.).
+        O objetivo é te dar clareza de ordem de grandeza e viabilidade do projeto. Para números finais, principalmente em operações
+        formais, é importante alinhar com seu despachante aduaneiro e acompanhar a legislação atualizada.
       </p>
     </details>
 
     <details style="margin-bottom:8px;">
-      <summary style="cursor:pointer; font-size:14px; font-weight:600;">
-        Serve para pessoa física e para empresa?
-      </summary>
+      <summary style="cursor:pointer; font-size:14px; font-weight:600;">Serve para pessoa física e para empresa?</summary>
       <p class="muted" style="margin-top:6px;">
         Sim. A lógica de cálculo de custos funciona tanto para quem importa como pessoa física quanto para CNPJ.
-        O que muda é o enquadramento, limites de valor, possibilidade de aproveitamento de crédito e algumas regras
-        específicas — temas que são abordados de forma detalhada nas aulas e mentorias.
+        O que muda é o enquadramento, limites de valor, possibilidade de aproveitamento de crédito e algumas regras específicas,
+        temas que são abordados de forma detalhada nas aulas e mentorias.
       </p>
     </details>
 
     <details>
-      <summary style="cursor:pointer; font-size:14px; font-weight:600;">
-        O que eu ganho ao estudar com você em vez de só usar a calculadora?
-      </summary>
+      <summary style="cursor:pointer; font-size:14px; font-weight:600;">O que eu ganho ao estudar com você em vez de só usar a calculadora?</summary>
       <p class="muted" style="margin-top:6px;">
         A calculadora te ajuda a fazer conta, mas é o <strong>conhecimento de contexto</strong> que evita erro caro:
         entender quando faz sentido Simplificada ou Formal, como negociar com fornecedor, quais documentos exigir,
@@ -933,28 +927,40 @@
   });
 
   /* ================================
-       0.1) MODO SIMPLIFICADO x FORMAL
+       0.1) SELETOR DE MODO
   =================================*/
-  const secaoSimplificado = document.getElementById("secaoSimplificado");
-  const secaoFormal = document.getElementById("secaoFormal");
-  const modoBtns = document.querySelectorAll(".modo-btn");
-  const modoLabel = document.getElementById("modoAtualLabel");
+  const modeSwitch = document.getElementById("modeSwitch");
+  const modeOptions = modeSwitch.querySelectorAll(".mode-option");
+  const calcSimplificada = document.getElementById("calcSimplificada");
+  const calcFormal = document.getElementById("calcFormal");
+  const modoAtualInfo = document.getElementById("modoAtualInfo");
 
-  modoBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-      const modo = btn.dataset.modo;
-      if (modo === "simplificado") {
-        secaoSimplificado.style.display = "";
-        secaoFormal.style.display = "none";
-        modoLabel.textContent = "Simplificado (Courier / Remessa Expressa)";
-      } else {
-        secaoSimplificado.style.display = "none";
-        secaoFormal.style.display = "";
-        modoLabel.textContent = "Formal (Marítimo / Aéreo - despacho completo)";
-      }
-      modoBtns.forEach(b => b.classList.toggle("active", b === btn));
+  function modoAtual() {
+    const checked = document.querySelector('input[name="modoImportacao"]:checked');
+    return checked ? checked.value : "simplificada";
+  }
+
+  function atualizarModoVisual() {
+    const modo = modoAtual();
+    modeOptions.forEach((opt) => {
+      const input = opt.querySelector("input");
+      if (input.value === modo) opt.classList.add("active");
+      else opt.classList.remove("active");
     });
-  });
+
+    if (modo === "simplificada") {
+      calcSimplificada.style.display = "";
+      calcFormal.style.display = "none";
+      modoAtualInfo.textContent = "Modo selecionado: Importação Simplificada";
+    } else {
+      calcSimplificada.style.display = "none";
+      calcFormal.style.display = "";
+      modoAtualInfo.textContent = "Modo selecionado: Importação Formal Marítima ou Aérea";
+    }
+  }
+
+  modeSwitch.addEventListener("change", atualizarModoVisual);
+  atualizarModoVisual();
 
   /* ================================
        1) COTAÇÃO AUTOMÁTICA
@@ -1123,28 +1129,260 @@
     });
 
   /* ================================
-       3) FUNÇÕES AUXILIARES
+       3) FUNÇÃO AUXILIAR
   =================================*/
   function brl(v) {
     return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
   }
 
-  function num(id) {
-    const v = parseFloat(document.getElementById(id).value);
-    return isNaN(v) ? 0 : v;
-  }
+  /* ================================
+       4) CÁLCULO IMPORTAÇÃO
+  =================================*/
+  const calcularBtn = document.getElementById("calcularBtn");
+  const resultadoCard = document.getElementById("resultadoCard");
+  const resultadoModo = document.getElementById("resultadoModo");
+  const resProdutos = document.getElementById("resProdutos");
+  const resFreteSeguro = document.getElementById("resFreteSeguro");
+  const resImpostos = document.getElementById("resImpostos");
+  const resDespesas = document.getElementById("resDespesas");
+  const resultadoTotal = document.getElementById("resultadoTotal");
+  const resultadoUnitario = document.getElementById("resultadoUnitario");
+  const resResumoBase = document.getElementById("resResumoBase");
+  const viabilidadeCard = document.getElementById("viabilidadeCard");
+  const vCustoProduto = document.getElementById("vCustoProduto");
+
+  calcularBtn.addEventListener("click", () => {
+    const modo = modoAtual();
+    const cotacao = parseFloat(cotacaoInput.value);
+
+    if (!cotacao || cotacao <= 0) {
+      alert("Informe uma cotação válida do dólar.");
+      return;
+    }
+
+    let valorProdutosBRL = 0;
+    let valorFreteSeguroBRL = 0;
+    let valorImpostosBRL = 0;
+    let despesasBRL = 0;
+    let totalBRL = 0;
+    let unitarioBRL = 0;
+    let qtd = 0;
+    let resumoTexto = "";
+
+    if (modo === "simplificada") {
+      // ======= SIMPLIFICADA =======
+      const custoUSD = parseFloat(document.getElementById("custoUSD").value);
+      qtd = parseInt(document.getElementById("quantidade").value);
+      const freteUSD = parseFloat(document.getElementById("freteUSD").value);
+      const seguroUSD = parseFloat(document.getElementById("seguroUSD").value);
+      const iiPercent = parseFloat(document.getElementById("iiPercent").value) / 100;
+      const icmsPercent = parseFloat(document.getElementById("icmsPercent").value) / 100;
+
+      if (!qtd || qtd <= 0) {
+        alert("Informe uma quantidade maior que zero.");
+        return;
+      }
+
+      const valorProdutosUSD = custoUSD * qtd;
+      const valorFreteSeguroUSD = freteUSD + seguroUSD;
+
+      valorProdutosBRL = valorProdutosUSD * cotacao;
+      valorFreteSeguroBRL = valorFreteSeguroUSD * cotacao;
+
+      const valorAduaneiroBRL = valorProdutosBRL + valorFreteSeguroBRL;
+
+      const valorII = valorAduaneiroBRL * iiPercent;
+      const valorICMS = valorAduaneiroBRL * icmsPercent;
+      valorImpostosBRL = valorII + valorICMS;
+
+      const baseCourierBRL = valorProdutosBRL + valorFreteSeguroBRL + valorImpostosBRL;
+      const courier2pctBRL = baseCourierBRL * 0.02;
+      const courierMinBRL = 18.8 * cotacao;
+      despesasBRL = courier2pctBRL < courierMinBRL ? courierMinBRL : courier2pctBRL;
+
+      totalBRL = baseCourierBRL + despesasBRL;
+      unitarioBRL = totalBRL / qtd;
+
+      resumoTexto =
+        "SIMPLIFICADA → Base courier = Produtos + Frete/Seguro + Impostos = " +
+        brl(baseCourierBRL) +
+        ". Courier calculado como maior valor entre 2% da base (" +
+        brl(courier2pctBRL) +
+        ") e 18,8 × cotação (" +
+        brl(courierMinBRL) +
+        ").";
+
+    } else {
+      // ======= FORMAL =======
+      const custoUSD = parseFloat(document.getElementById("custoUSDFormal").value);
+      qtd = parseInt(document.getElementById("quantidadeFormal").value);
+      const freteUSD = parseFloat(document.getElementById("freteUSDFormal").value);
+      const seguroUSD = parseFloat(document.getElementById("seguroUSDFormal").value);
+
+      if (!qtd || qtd <= 0) {
+        alert("Informe uma quantidade maior que zero na calculadora formal.");
+        return;
+      }
+
+      const iiAliq = (parseFloat(document.getElementById("iiFormalPercent").value) || 0) / 100;
+      const ipiAliq = (parseFloat(document.getElementById("ipiFormalPercent").value) || 0) / 100;
+      const pisAliq = (parseFloat(document.getElementById("pisFormalPercent").value) || 0) / 100;
+      const cofinsAliq = (parseFloat(document.getElementById("cofinsFormalPercent").value) || 0) / 100;
+      const icmsAliq = (parseFloat(document.getElementById("icmsFormalPercent").value) || 0) / 100;
+      const icmsGrossUp = document.getElementById("icmsFormalGrossUp").value === "sim";
+
+      // Valor aduaneiro
+      const valorProdutosUSD = custoUSD * qtd;
+      const valorFreteSeguroUSD = freteUSD + seguroUSD;
+
+      valorProdutosBRL = valorProdutosUSD * cotacao;
+      valorFreteSeguroBRL = valorFreteSeguroUSD * cotacao;
+
+      const cifBR = valorProdutosBRL + valorFreteSeguroBRL;
+
+      const valorII = cifBR * iiAliq;
+      const valorIPI = (cifBR + valorII) * ipiAliq;
+      const valorPIS = (cifBR + valorII + valorIPI) * pisAliq;
+      const valorCOFINS = (cifBR + valorII + valorIPI) * cofinsAliq;
+
+      // Despesas aduaneiras
+      const siscomexBRL = parseFloat(document.getElementById("siscomexBRL").value) || 0;
+      const despachanteBRL = parseFloat(document.getElementById("despachanteBRL").value) || 0;
+      const armazenagemBRL = parseFloat(document.getElementById("armazenagemBRL").value) || 0;
+      const transporteBRL = parseFloat(document.getElementById("transporteBRL").value) || 0;
+      const marinhaPercent = (parseFloat(document.getElementById("marinhaPercent").value) || 0) / 100;
+      const outrasDespesasBRL = parseFloat(document.getElementById("outrasDespesasBRL").value) || 0;
+
+      const freteBRL = freteUSD * cotacao;
+      const marinhaBRL = freteBRL * marinhaPercent;
+
+      despesasBRL =
+        siscomexBRL +
+        despachanteBRL +
+        armazenagemBRL +
+        transporteBRL +
+        marinhaBRL +
+        outrasDespesasBRL;
+
+      // ICMS
+      const baseICMS = cifBR + valorII + valorIPI + valorPIS + valorCOFINS + despesasBRL;
+      let valorICMS = 0;
+      if (icmsGrossUp) {
+        // ICMS com gross-up
+        const bruto = (baseICMS / (1 - icmsAliq)) * icmsAliq;
+        valorICMS = bruto - baseICMS;
+      } else {
+        valorICMS = baseICMS * icmsAliq;
+      }
+
+      valorImpostosBRL =
+        (valorII || 0) +
+        (valorIPI || 0) +
+        (valorPIS || 0) +
+        (valorCOFINS || 0) +
+        (valorICMS || 0);
+
+      totalBRL = cifBR + valorImpostosBRL + despesasBRL;
+      unitarioBRL = totalBRL / qtd;
+
+      resumoTexto =
+        "FORMAL → CIF (produto + frete + seguro) = " + brl(cifBR) +
+        ". Tributos calculados em cascata (II, IPI, PIS, COFINS) e ICMS " +
+        (icmsGrossUp ? "com gross-up" : "sem gross-up") +
+        " sobre a base CIF + tributos + despesas. Marinha Mercante aplicada como " +
+        (marinhaPercent * 100).toFixed(2) +
+        "% sobre o frete em BRL.";
+    }
+
+    // Preenche resultados comuns
+    resultadoModo.textContent =
+      modo === "simplificada"
+        ? "Importação Simplificada (remessa expressa / courier)"
+        : "Importação Formal Marítima ou Aérea";
+
+    resProdutos.textContent = brl(valorProdutosBRL);
+    resFreteSeguro.textContent = brl(valorFreteSeguroBRL);
+    resImpostos.textContent = brl(valorImpostosBRL);
+    resDespesas.textContent = brl(despesasBRL);
+    resultadoTotal.textContent = brl(totalBRL);
+    resultadoUnitario.textContent = brl(unitarioBRL);
+    resResumoBase.textContent = resumoTexto;
+
+    resultadoCard.style.display = "block";
+
+    // Alimenta custo unitário da viabilidade
+    vCustoProduto.value = unitarioBRL.toFixed(2);
+    viabilidadeCard.style.display = "block";
+  });
 
   /* ================================
-       4) CÁLCULO IMPORTAÇÃO SIMPLIFICADA
+       5) CÁLCULO VIABILIDADE DE VENDA
   =================================*/
-  document.getElementById("calcularBtn").addEventListener("click", () => {
-    const cotacao = parseFloat(cotacaoInput.value);
-    const custoUSD = parseFloat(document.getElementById("custoUSD").value);
-    const qtd = parseInt(document.getElementById("quantidade").value);
-    const freteUSD = parseFloat(document.getElementById("freteUSD").value);
-    const seguroUSD = parseFloat(document.getElementById("seguroUSD").value);
-    const iiPercent = parseFloat(document.getElementById("iiPercent").value) / 100;
-    const icmsPercent = parseFloat(document.getElementById("icmsPercent").value) / 100;
+  const btnCalcVenda = document.getElementById("btnCalcVenda");
+  const viabResultado = document.getElementById("viabResultado");
+  const viabMargem = document.getElementById("viabMargem");
+  const viabROI = document.getElementById("viabROI");
+  const viabMontao = document.getElementById("viabMontao");
+  const viabAlerta = document.getElementById("viabAlerta");
 
-    if (!cotacao || cotacao <= 0 || !qtd || qtd <= 0) {
-      alert("Informe uma cotação válida e
+  btnCalcVenda.addEventListener("click", () => {
+    const venda = parseFloat(document.getElementById("vVenda").value);
+    const tarifaFixa = parseFloat(document.getElementById("vTarifaFixa").value);
+    const tarifaAnuncioPercent = parseFloat(document.getElementById("vTarifaAnuncioPercent").value) / 100;
+    const impostosPercent = parseFloat(document.getElementById("vImpostosPercent").value) / 100;
+    const embalagem = parseFloat(document.getElementById("vEmbalagem").value);
+    const custoProduto = parseFloat(document.getElementById("vCustoProduto").value);
+    const qtd = parseInt(document.getElementById("quantidade").value) || parseInt(document.getElementById("quantidadeFormal").value) || 0;
+
+    if (!venda || !custoProduto) {
+      alert("Informe pelo menos o valor da venda e o custo do produto.");
+      return;
+    }
+
+    const tarifaAnuncioValor = venda * tarifaAnuncioPercent;
+    const impostosValor = venda * impostosPercent;
+
+    const margemContrib = venda
+      - tarifaFixa
+      - tarifaAnuncioValor
+      - impostosValor
+      - embalagem
+      - custoProduto;
+
+    const roiDecimal = custoProduto > 0 ? margemContrib / custoProduto : 0;
+    const roiPercent = roiDecimal * 100;
+    const montao = margemContrib * qtd;
+
+    viabMargem.textContent = brl(margemContrib);
+    viabROI.textContent = roiPercent.toFixed(0) + "%";
+    viabMontao.textContent = brl(montao);
+
+    if (margemContrib <= 0) {
+      viabAlerta.className = "danger";
+      viabAlerta.textContent = "⚠️ Margem negativa ou zero: este cenário não compensa trazer o produto nessas condições.";
+    } else if (roiPercent < 30) {
+      viabAlerta.className = "danger";
+      viabAlerta.textContent = "⚠️ Margem baixa: avalie se o risco/capital investido compensa.";
+    } else {
+      viabAlerta.className = "success";
+      viabAlerta.textContent = "✅ Cenário com boa margem. Ainda assim, considere volume de vendas, concorrência e riscos comerciais.";
+    }
+
+    viabResultado.style.display = "block";
+    viabResultado.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+
+  /* ================================
+       6) SERVICE WORKER (PWA)
+  =================================*/
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("sw.js").catch(() => {
+        // se der erro, só não registra; a calculadora continua normal
+      });
+    });
+  }
+</script>
+
+</body>
+</html>
