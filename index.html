@@ -1,46 +1,44 @@
-<section id="rateio-simplificada" class="card" style="margin-top: 2rem;">
+<!-- 🔹 RATEIO ENTRE PRODUTOS – SIMPLIFICADA -->
+<div class="card" id="rateioSimplificada">
   <h2>Rateio entre Produtos – Importação Simplificada</h2>
-  <p>Se você está trazendo mais de um produto no mesmo lote, preencha os dados abaixo para simular o rateio proporcional dos custos:</p>
+  <p class="muted">Se você está trazendo mais de um produto no mesmo lote, preencha os dados abaixo para simular o rateio proporcional dos custos:</p>
 
-  <!-- Campo oculto para receber o total de impostos da simplificada -->
-  <input type="hidden" id="total-impostos" value="0">
+  <div id="produtos-container" class="grid"></div>
 
-  <div id="produtos-container" style="margin-bottom: 1rem;"></div>
-
-  <div style="margin-bottom: 1rem;">
+  <div style="margin-top:10px;">
     <button onclick="adicionarProduto()">+ Adicionar Produto</button>
     <button onclick="calcularRateio()">Calcular Rateio</button>
   </div>
 
-  <div id="resultado-rateio" style="margin-top: 1rem;"></div>
+  <div id="resultado-rateio" style="margin-top:20px;"></div>
 
   <style>
-    #rateio-simplificada input {
+    #rateioSimplificada input {
       padding: 6px;
       margin: 4px;
       border: 1px solid #ccc;
       border-radius: 4px;
     }
 
-    #rateio-simplificada table {
+    #rateioSimplificada table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 1rem;
       font-size: 0.9rem;
     }
 
-    #rateio-simplificada th, #rateio-simplificada td {
+    #rateioSimplificada th, #rateioSimplificada td {
       border: 1px solid #ccc;
       padding: 6px;
       text-align: center;
     }
 
-    #rateio-simplificada th {
+    #rateioSimplificada th {
       background-color: #002b5c;
       color: gold;
     }
 
-    #rateio-simplificada tr:nth-child(even) {
+    #rateioSimplificada tr:nth-child(even) {
       background-color: #f9f9f9;
     }
   </style>
@@ -51,6 +49,7 @@
     function adicionarProduto() {
       const index = produtosContainer.children.length;
       const div = document.createElement('div');
+      div.className = "grid grid-2";
       div.innerHTML = `
         <input type="text" placeholder="Nome" id="nome-${index}">
         <input type="number" placeholder="Qtd" id="qtd-${index}" min="1">
@@ -61,16 +60,23 @@
     }
 
     function calcularRateio() {
-      const cotacao = parseFloat(document.getElementById('cotacao-usd')?.value || 5.0);
-      const frete = parseFloat(document.getElementById('frete-usd')?.value || 0);
-      const seguro = parseFloat(document.getElementById('seguro-usd')?.value || 0);
-      const impostos = parseFloat(document.getElementById('total-impostos')?.value || 0);
+      const cotacao = parseFloat(document.getElementById('cotacao').value || 5.0);
+      const frete = parseFloat(document.getElementById('freteUSD').value || 0);
+      const seguro = parseFloat(document.getElementById('seguroUSD').value || 0);
+      const ii = parseFloat(document.getElementById('iiPercent').value || 0);
+      const icms = parseFloat(document.getElementById('icmsPercent').value || 0);
+
+      const valorProdutosUSD = parseFloat(document.getElementById('custoUSD').value || 0) * parseFloat(document.getElementById('quantidade').value || 0);
+      const valorFreteSeguroBRL = (frete + seguro) * cotacao;
+      const valorProdutosBRL = valorProdutosUSD * cotacao;
+      const valorAduaneiroBRL = valorProdutosBRL + valorFreteSeguroBRL;
+      const valorImpostos = valorAduaneiroBRL * (ii + icms) / 100;
 
       const produtos = [];
       const total = produtosContainer.children.length;
 
       for (let i = 0; i < total; i++) {
-        const nome = document.getElementById(`nome-${i}`).value || `Produto ${i+1}`;
+        const nome = document.getElementById(`nome-${i}`).value || `Produto ${i + 1}`;
         const qtd = parseFloat(document.getElementById(`qtd-${i}`).value || 0);
         const valor = parseFloat(document.getElementById(`valor-${i}`).value || 0);
         const peso = parseFloat(document.getElementById(`peso-${i}`).value || 0);
@@ -92,7 +98,7 @@
         const subtotalUSD = p.qtd * p.valor;
         const pesoTotal = p.qtd * p.peso;
         const freteRateado = ((subtotalUSD / totalUSD) * (frete + seguro)) * cotacao;
-        const impostosRateado = (pesoTotal / totalPeso) * impostos;
+        const impostosRateado = (pesoTotal / totalPeso) * valorImpostos;
         const custoBRL = (subtotalUSD * cotacao) + freteRateado + impostosRateado;
         const unitarioBRL = custoBRL / p.qtd;
 
@@ -112,4 +118,4 @@
       document.getElementById('resultado-rateio').innerHTML = html;
     }
   </script>
-</section>
+</div>
