@@ -1,9 +1,23 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Calculadora de Importação Simplificada + NCM</title>
+  <title>Calculadora de Importação Simplificada | Fábio Machado Consultoria</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description"
+        content="Calculadora de Importação Simplificada com viabilidade de venda em marketplace. Desenvolvida por Fábio Machado Consultoria e Mentoria em Importação." />
+  <meta name="theme-color" content="#020617" />
+
+  <!-- Open Graph / Social -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Calculadora de Importação Simplificada | Fábio Machado" />
+  <meta property="og:description"
+        content="Simule rapidamente custos de importação simplificada, impostos, courier e margem líquida de venda." />
+  <meta property="og:url" content="https://fabioluisamachado01-alt.github.io/calculadora-importacao/" />
+  <meta property="og:site_name" content="Fábio Machado Consultoria" />
+
+  <!-- Manifest PWA -->
+  <link rel="manifest" href="manifest.webmanifest" />
 
   <style>
     :root {
@@ -11,13 +25,11 @@
       --navy-light: #0f172a;
       --gold: #eab308;
       --gold-light: #facc15;
-      --bg: #020617;
-      --card-bg: #0b1220;
       --border: #1e293b;
       --text: #e5e7eb;
       --text-muted: #9ca3af;
-      --danger: #fca5a5;
-      --radius: 14px;
+      --card-bg: linear-gradient(145deg, #111827 0%, #020617 70%);
+      --body-bg: radial-gradient(circle at top, #1e293b 0, #020617 55%, #000 100%);
     }
 
     * {
@@ -27,61 +39,95 @@
 
     body {
       margin: 0;
-      background: radial-gradient(circle at top, #1e293b 0, #020617 55%, #000 100%);
+      background: var(--body-bg);
       color: var(--text);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      transition: background 0.25s ease, color 0.25s ease;
     }
 
     header {
       border-bottom: 1px solid var(--border);
-      padding: 14px 18px;
+      padding: 10px 18px;
       background: rgba(2, 6, 23, 0.92);
       backdrop-filter: blur(10px);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 12px;
       position: sticky;
       top: 0;
       z-index: 10;
     }
 
-    header h1 {
-      font-size: 18px;
-      margin: 0;
+    .header-left {
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-weight: 600;
+      gap: 10px;
+      min-width: 0;
     }
 
-    header .dot {
-      width: 10px;
-      height: 10px;
-      background: var(--gold);
-      border-radius: 50%;
-      box-shadow: 0 0 14px rgba(234, 179, 8, 0.9);
+    .logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      object-fit: contain;
+      background: #0f172a;
+      padding: 4px;
+      box-shadow: 0 0 12px rgba(234, 179, 8, 0.6);
+    }
+
+    header h1 {
+      font-size: 16px;
+      margin: 0;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    header h1 span.sub {
+      display: block;
+      font-size: 12px;
+      color: #facc15;
+      font-weight: 400;
     }
 
     #cotacaoInfo {
       font-size: 12px;
       color: var(--text-muted);
       text-align: right;
+      white-space: nowrap;
+    }
+
+    .theme-toggle {
+      border: 1px solid var(--border);
+      background: #020617;
+      color: #e5e7eb;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .theme-toggle span {
+      font-size: 14px;
     }
 
     main {
       max-width: 1000px;
       margin: 24px auto;
-      padding: 0 16px 50px;
+      padding: 0 16px 70px;
       width: 100%;
     }
 
     .card {
-      background: linear-gradient(145deg, #111827 0%, #020617 70%);
+      background: var(--card-bg);
       border: 1px solid var(--border);
       padding: 20px;
-      border-radius: var(--radius);
+      border-radius: 14px;
       margin-bottom: 20px;
       box-shadow: 0 12px 32px rgba(0,0,0,0.45);
     }
@@ -98,12 +144,8 @@
     }
 
     @media (min-width: 640px) {
-      .grid-2 {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .grid-3 {
-        grid-template-columns: repeat(3, 1fr);
-      }
+      .grid-2 { grid-template-columns: repeat(2, 1fr); }
+      .grid-3 { grid-template-columns: repeat(3, 1fr); }
     }
 
     label {
@@ -122,7 +164,7 @@
       border-radius: 10px;
       font-size: 14px;
       outline: none;
-      transition: border 0.15s, box-shadow 0.15s;
+      transition: border 0.15s, box-shadow 0.15s, background 0.15s;
     }
 
     input:focus, select:focus, textarea:focus {
@@ -130,9 +172,7 @@
       box-shadow: 0 0 0 1px rgba(234, 179, 8, 0.5);
     }
 
-    textarea {
-      resize: vertical;
-    }
+    textarea { resize: vertical; }
 
     button {
       background: linear-gradient(90deg, var(--gold-light), var(--gold));
@@ -153,7 +193,7 @@
     }
 
     .danger {
-      color: var(--danger);
+      color: #fca5a5;
       font-size: 13px;
       margin-top: 8px;
     }
@@ -167,7 +207,7 @@
     .result {
       background: rgba(250, 204, 21, 0.1);
       padding: 16px;
-      border-radius: var(--radius);
+      border-radius: 14px;
       border: 1px solid rgba(250, 204, 21, 0.3);
     }
 
@@ -176,6 +216,7 @@
       display: flex;
       justify-content: space-between;
       margin-bottom: 4px;
+      gap: 8px;
     }
 
     .result-value {
@@ -187,18 +228,112 @@
       font-size: 12px;
       color: var(--text-muted);
     }
+
+    /* WhatsApp flutuante */
+    .whatsapp-float {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      width: 54px;
+      height: 54px;
+      border-radius: 999px;
+      background: #22c55e;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      text-decoration: none;
+      box-shadow: 0 12px 25px rgba(22, 163, 74, 0.6);
+      z-index: 50;
+    }
+
+    .whatsapp-float:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+    }
+
+    /* Footer */
+    footer {
+      margin-top: auto;
+      padding: 22px;
+      background: #0f172a;
+      border-top: 1px solid #1e293b;
+      text-align: center;
+      font-size: 14px;
+      color: #e5e7eb;
+    }
+
+    footer a {
+      color: #facc15;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    footer a:hover { text-decoration: underline; }
+
+    /* Light mode overrides */
+    body.light {
+      --body-bg: #f3f4f6;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #6b7280;
+      --border: #e5e7eb;
+    }
+
+    body.light {
+      background: var(--body-bg);
+      color: var(--text);
+    }
+
+    body.light header {
+      background: #ffffff;
+      border-bottom-color: #e5e7eb;
+    }
+
+    body.light .card {
+      box-shadow: 0 12px 24px rgba(15,23,42,0.12);
+    }
+
+    body.light input,
+    body.light select,
+    body.light textarea {
+      background: #f9fafb;
+      color: #0f172a;
+      border-color: #e5e7eb;
+    }
+
+    body.light footer {
+      background: #ffffff;
+      border-top-color: #e5e7eb;
+      color: #111827;
+    }
   </style>
 </head>
 
 <body>
-
 <header>
-  <h1><span class="dot"></span> Calculadora de Importação – Modo Simplificado</h1>
-  <div id="cotacaoInfo">Cotação: carregando...</div>
+  <div class="header-left">
+    <img src="logo-fabio-machado.png"
+         alt="Fábio Machado Consultoria Estratégica"
+         class="logo">
+    <div>
+      <h1>
+        Calculadora de Importação – Modo Simplificado
+        <span class="sub">Fábio Machado • Consultoria e Mentoria em Importação</span>
+      </h1>
+    </div>
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:6px; align-items:flex-end;">
+    <div id="cotacaoInfo">Cotação: carregando...</div>
+    <button type="button" class="theme-toggle" id="themeToggle" aria-label="Alternar tema claro/escuro">
+      <span id="themeIcon">🌙</span> <span id="themeText">Modo escuro</span>
+    </button>
+  </div>
 </header>
 
 <main>
-
   <!-- 🔹 SEÇÃO NCM + TRATAMENTOS -->
   <div class="card">
     <h2>NCM & Tratamentos Administrativos</h2>
@@ -258,10 +393,10 @@
 
     <br>
 
-    <label>O produto é Bluetooth ou Wi-Fi?</label>
+    <label>O produto possui Bluetooth ou Wi-Fi?</label>
     <div style="display:flex; gap:16px; font-size:14px;">
-      <label><input type="radio" name="produtoRadio" value="nao" checked> Não</label>
-      <label><input type="radio" name="produtoRadio" value="sim"> Sim</label>
+      <label><input type="radio" name="produtoRF" value="nao" checked> Não</label>
+      <label><input type="radio" name="produtoRF" value="sim"> Sim</label>
     </div>
 
     <br>
@@ -436,11 +571,82 @@
     </div>
   </div>
 
+  <!-- 🔹 SOBRE FÁBIO MACHADO -->
+  <div class="card">
+    <h2>Sobre Fábio Machado</h2>
+    <p class="muted">
+      Consultor e mentor especializado em importação, com foco em estruturar operações enxutas, seguras
+      e lucrativas para profissionais e empresas que desejam importar com segurança.
+    </p>
+    <p class="muted">
+      Ao longo dos últimos anos, ajudei alunos e clientes a entender de forma prática como funcionam
+      classificação fiscal, tratamentos administrativos, tributação na importação e formação de preço
+      para marketplaces.
+    </p>
+    <p class="muted">
+      A calculadora que você está utilizando foi criada justamente para apoiar esse processo de tomada
+      de decisão, trazendo clareza sobre custo real, riscos e margem líquida.
+    </p>
+    <p class="muted">
+      Acompanhe também no Instagram:
+      <a href="https://www.instagram.com/fabiomachado.br" target="_blank">@fabiomachado.br</a>
+    </p>
+  </div>
+
+  <!-- 🔹 BLOCO QUER SER MEU ALUNO -->
+  <div class="card">
+    <h2>Quer ser meu aluno?</h2>
+    <p class="muted">
+      Se você quer aprender a importar do zero, com método, segurança e acompanhamento,
+      conheça meus programas de consultoria e mentoria em importação.
+    </p>
+    <p class="muted">
+      Dentro da mentoria você terá:
+    </p>
+    <ul class="muted">
+      <li>Passo a passo para análise de NCM, tratamentos administrativos e riscos.</li>
+      <li>Modelos práticos de formação de preço e cálculo de margem.</li>
+      <li>Suporte para tirar dúvidas sobre operações reais.</li>
+    </ul>
+    <p class="muted">
+      Clique no botão abaixo para falar diretamente comigo no WhatsApp:
+    </p>
+    <div style="text-align:center; margin-top:10px;">
+      <a href="https://wa.me/message/UDEZKZS4LQWXB1" target="_blank">
+        <button type="button">Quero saber mais sobre a mentoria</button>
+      </a>
+    </div>
+  </div>
 </main>
 
 <footer>
-  Desenvolvido para fins didáticos. Atualize sempre as alíquotas conforme sua operação.
+  <p style="margin:4px 0; opacity:0.9;">
+    Desenvolvido por <strong>Fábio Machado Consultoria &amp; Mentoria em Importação</strong>
+  </p>
+
+  <p style="margin:6px 0 8px;">
+    Quer aprender a importar da maneira correta, evitando erros e prejuízos?<br>
+    <a href="https://wa.me/message/UDEZKZS4LQWXB1" target="_blank">
+      Fale conosco pelo WhatsApp 📲 (12) 99184-4541
+    </a>
+  </p>
+
+  <p style="margin:4px 0; font-size:12px; opacity:0.6;">
+    Este simulador é para fins educacionais — atualize sempre as alíquotas e parâmetros conforme sua operação.
+  </p>
+
+  <p style="margin:4px 0; font-size:12px; opacity:0.6;">
+    Instagram: <a href="https://www.instagram.com/fabiomachado.br" target="_blank">@fabiomachado.br</a>
+  </p>
 </footer>
+
+<!-- Botão flutuante WhatsApp -->
+<a href="https://wa.me/message/UDEZKZS4LQWXB1"
+   class="whatsapp-float"
+   target="_blank"
+   aria-label="Falar com Fábio Machado no WhatsApp">
+  💬
+</a>
 
 <script>
   /* ================================
@@ -476,265 +682,10 @@
   });
 
   /* ================================
-       2) NCM ALERTAS + OBSERVAÇÕES AUTOMÁTICAS
+       2) NCM ALERTAS + OBSERVAÇÕES
   =================================*/
   const ncmSimplificada = document.getElementById("ncmSimplificada");
   const ncmCide = document.getElementById("ncmCide");
   const ncmAntidumping = document.getElementById("ncmAntidumping");
   const ncmComp = document.getElementById("ncmComp");
-  const ncmAlerta = document.getElementById("ncmAlerta");
-  const ncmObs = document.getElementById("ncmObs");
-  const orgaosCheckboxes = document.querySelectorAll(".ncm-orgao");
-  const bateriaRadios = document.querySelectorAll('input[name="produtoBateria"]');
-  const radioRadios = document.querySelectorAll('input[name="produtoRadio"]');
-
-  let manualObs = "";
-  let updatingObs = false;
-
-  // guarda parte manual digitada pelo aluno
-  ncmObs.addEventListener("input", () => {
-    if (updatingObs) return;
-    const marker = "\n\n--- Observações automáticas ---";
-    const texto = ncmObs.value;
-    const idx = texto.indexOf(marker);
-    manualObs = idx >= 0 ? texto.slice(0, idx) : texto;
-  });
-
-  function atualizarAlertasNCM() {
-    const msgs = [];
-
-    if (ncmSimplificada.value === "nao")
-      msgs.push("⚠️ Este NCM foi marcado como não elegível à importação simplificada.");
-
-    if (ncmAntidumping.checked)
-      msgs.push("⚠️ NCM com antidumping: revise viabilidade, pode inviabilizar a importação.");
-
-    ncmAlerta.textContent = msgs.join(" | ");
-    atualizarObsAutomaticas();
-  }
-
-  function atualizarObsAutomaticas() {
-    const autoMsgs = [];
-
-    // Órgãos anuentes
-    const selecionados = Array.from(orgaosCheckboxes)
-      .filter(c => c.checked)
-      .map(c => {
-        const mapa = {
-          anvisa: "Anvisa",
-          inmetro: "Inmetro",
-          mapa: "MAPA",
-          exercito: "Exército",
-          ibama: "Ibama",
-          anatel: "Anatel",
-          outros: "outros órgãos competentes"
-        };
-        return mapa[c.value] || c.value;
-      });
-
-    if (selecionados.length > 0) {
-      const lista = selecionados.join(", ");
-      autoMsgs.push(
-        "Este NCM possui tratamento administrativo com órgão(s) anuente(s): " + lista +
-        ". Em regra, mercadorias sujeitas à anuência desses órgãos não são enquadradas como remessa simplificada. " +
-        "Considere planejar a operação via despacho formal e providenciar previamente as certificações, licenças e registros correspondentes antes de importar."
-      );
-      if (!ncmSimplificada.value) {
-        ncmSimplificada.value = "nao";
-      }
-    }
-
-    // CIDE / Antidumping / Medidas compensatórias
-    if (ncmCide.checked || ncmAntidumping.checked || ncmComp.checked) {
-      autoMsgs.push(
-        "Foi sinalizada a existência de CIDE, antidumping e/ou medidas compensatórias para este NCM. " +
-        "Revise com atenção as alíquotas e condições no Sítio de Apoio ao Importador (Portal Único/Siscomex) e valide com seu despachante ou assessor aduaneiro " +
-        "se a operação é permitida e permanece economicamente viável."
-      );
-    }
-
-    // Produto com bateria
-    const bateriaValor = Array.from(bateriaRadios).find(r => r.checked)?.value;
-    if (bateriaValor === "sim") {
-      autoMsgs.push(
-        "Produto com bateria: solicite ao fornecedor a ficha de segurança MSDS (Material Safety Data Sheet) e confirme com o courier/transportadora " +
-        "as exigências específicas para transporte, embalagem e documentação de artigos que contenham baterias."
-      );
-    }
-
-    // Produto com Bluetooth/Wi-Fi
-    const radioValor = Array.from(radioRadios).find(r => r.checked)?.value;
-    const anatelCheckbox = Array.from(orgaosCheckboxes).find(c => c.value === "anatel");
-    if (radioValor === "sim") {
-      if (anatelCheckbox && !anatelCheckbox.checked) {
-        anatelCheckbox.checked = true; // força Anatel como órgão anuente
-      }
-      autoMsgs.push(
-        "Produto com funcionalidade de radiocomunicação (Bluetooth e/ou Wi-Fi): em regra exige homologação e anuência da Anatel " +
-        "para fins de importação e posterior comercialização no Brasil. Consulte a regulamentação específica no portal da Anatel " +
-        "e, em caso de dúvida, alinhe o procedimento com seu despachante aduaneiro antes de avançar com a operação."
-      );
-    }
-
-    const marker = "\n\n--- Observações automáticas ---\n";
-    updatingObs = true;
-
-    if (autoMsgs.length > 0) {
-      if (manualObs.trim().length > 0) {
-        ncmObs.value = manualObs + marker + autoMsgs.join("\n\n");
-      } else {
-        ncmObs.value = "--- Observações automáticas ---\n" + autoMsgs.join("\n\n");
-      }
-    } else {
-      ncmObs.value = manualObs;
-    }
-
-    updatingObs = false;
-  }
-
-  ncmSimplificada.addEventListener("change", atualizarAlertasNCM);
-  ncmAntidumping.addEventListener("change", atualizarAlertasNCM);
-  ncmCide.addEventListener("change", atualizarObsAutomaticas);
-  ncmComp.addEventListener("change", atualizarObsAutomaticas);
-  orgaosCheckboxes.forEach(c => c.addEventListener("change", atualizarObsAutomaticas));
-  bateriaRadios.forEach(r => r.addEventListener("change", atualizarObsAutomaticas));
-  radioRadios.forEach(r => r.addEventListener("change", atualizarObsAutomaticas));
-
-  document.getElementById("consultarNcmBtn")
-    .addEventListener("click", function () {
-      window.open("https://www4.receita.fazenda.gov.br/simulador/", "_blank");
-    });
-
-  /* ================================
-       3) FUNÇÃO AUXILIAR
-  =================================*/
-  function brl(v) {
-    return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-  }
-
-  /* ================================
-       4) CÁLCULO IMPORTAÇÃO
-  =================================*/
-  document.getElementById("calcularBtn").addEventListener("click", () => {
-    const cotacao = parseFloat(cotacaoInput.value);
-    const custoUSD = parseFloat(document.getElementById("custoUSD").value);
-    const qtd = parseInt(document.getElementById("quantidade").value);
-    const freteUSD = parseFloat(document.getElementById("freteUSD").value);
-    const seguroUSD = parseFloat(document.getElementById("seguroUSD").value);
-    const iiPercent = parseFloat(document.getElementById("iiPercent").value) / 100;
-    const icmsPercent = parseFloat(document.getElementById("icmsPercent").value) / 100;
-
-    if (!cotacao || cotacao <= 0 || !qtd || qtd <= 0) {
-      alert("Informe uma cotação válida e uma quantidade maior que zero.");
-      return;
-    }
-
-    // Produtos / Frete / Seguro em USD
-    const valorProdutosUSD = custoUSD * qtd;
-    const valorFreteSeguroUSD = freteUSD + seguroUSD;
-
-    // Converte para BRL
-    const valorProdutosBRL = valorProdutosUSD * cotacao;
-    const valorFreteSeguroBRL = valorFreteSeguroUSD * cotacao;
-
-    // Valor aduaneiro (base II) em BRL
-    const valorAduaneiroBRL = valorProdutosBRL + valorFreteSeguroBRL;
-
-    // Impostos
-    const valorII = valorAduaneiroBRL * iiPercent;
-    // (podemos refinar depois fórmula exata do ICMS, se quiser)
-    const valorICMS = valorAduaneiroBRL * icmsPercent;
-    const valorImpostosBRL = valorII + valorICMS;
-
-    // === COURIER (regra da planilha) ===
-    const baseCourierBRL = valorProdutosBRL + valorFreteSeguroBRL + valorImpostosBRL;
-    const courier2pctBRL = baseCourierBRL * 0.02;
-    const courierMinBRL = 18.8 * cotacao;
-    const courierBRL = courier2pctBRL < courierMinBRL ? courierMinBRL : courier2pctBRL;
-
-    const totalBRL = baseCourierBRL + courierBRL;
-    const unitarioBRL = totalBRL / qtd;
-
-    document.getElementById("resProdutos").textContent = brl(valorProdutosBRL);
-    document.getElementById("resFreteSeguro").textContent = brl(valorFreteSeguroBRL);
-    document.getElementById("resImpostos").textContent = brl(valorImpostosBRL);
-    document.getElementById("resCourier").textContent = brl(courierBRL);
-
-    document.getElementById("resultadoTotal").textContent = brl(totalBRL);
-    document.getElementById("resultadoUnitario").textContent = brl(unitarioBRL);
-
-    document.getElementById("resResumoBase").textContent =
-      "Base courier = Produtos + Frete/Seguro + Impostos = " +
-      brl(baseCourierBRL) +
-      ". Courier calculado como maior valor entre 2% da base (" +
-      brl(courier2pctBRL) +
-      ") e 18,8 × cotação (" +
-      brl(courierMinBRL) +
-      ").";
-
-    document.getElementById("resultadoCard").style.display = "block";
-
-    document.getElementById("vCustoProduto").value = unitarioBRL.toFixed(2);
-    document.getElementById("viabilidadeCard").style.display = "block";
-  });
-
-  /* ================================
-       5) CÁLCULO VIABILIDADE DE VENDA
-  =================================*/
-  const btnCalcVenda = document.getElementById("btnCalcVenda");
-  const viabResultado = document.getElementById("viabResultado");
-  const viabMargem = document.getElementById("viabMargem");
-  const viabROI = document.getElementById("viabROI");
-  const viabMontao = document.getElementById("viabMontao");
-  const viabAlerta = document.getElementById("viabAlerta");
-
-  btnCalcVenda.addEventListener("click", () => {
-    const venda = parseFloat(document.getElementById("vVenda").value);
-    const tarifaFixa = parseFloat(document.getElementById("vTarifaFixa").value);
-    const tarifaAnuncioPercent = parseFloat(document.getElementById("vTarifaAnuncioPercent").value) / 100;
-    const impostosPercent = parseFloat(document.getElementById("vImpostosPercent").value) / 100;
-    const embalagem = parseFloat(document.getElementById("vEmbalagem").value);
-    const custoProduto = parseFloat(document.getElementById("vCustoProduto").value);
-    const qtd = parseInt(document.getElementById("quantidade").value) || 0;
-
-    if (!venda || !custoProduto) {
-      alert("Informe pelo menos o valor da venda e o custo do produto.");
-      return;
-    }
-
-    const tarifaAnuncioValor = venda * tarifaAnuncioPercent;
-    const impostosValor = venda * impostosPercent;
-
-    const margemContrib = venda
-      - tarifaFixa
-      - tarifaAnuncioValor
-      - impostosValor
-      - embalagem
-      - custoProduto;
-
-    const roiDecimal = custoProduto > 0 ? margemContrib / custoProduto : 0;
-    const roiPercent = roiDecimal * 100;
-    const montao = margemContrib * qtd;
-
-    viabMargem.textContent = brl(margemContrib);
-    viabROI.textContent = roiPercent.toFixed(0) + "%";
-    viabMontao.textContent = brl(montao);
-
-    if (margemContrib <= 0) {
-      viabAlerta.className = "danger";
-      viabAlerta.textContent = "⚠️ Margem negativa ou zero: este cenário não compensa trazer o produto nessas condições.";
-    } else if (roiPercent < 30) {
-      viabAlerta.className = "danger";
-      viabAlerta.textContent = "⚠️ Margem baixa: avalie se o risco/capital investido compensa.";
-    } else {
-      viabAlerta.className = "success";
-      viabAlerta.textContent = "✅ Cenário com boa margem. Ainda assim, considere volume de vendas, concorrência e riscos comerciais.";
-    }
-
-    viabResultado.style.display = "block";
-    viabResultado.scrollIntoView({ behavior: "smooth", block: "center" });
-  });
-</script>
-
-</body>
-</html>
+  const ncmAlerta =
